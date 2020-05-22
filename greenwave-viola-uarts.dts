@@ -1,0 +1,123 @@
+/dts-v1/;
+/plugin/;
+#include "/device-tree-overlays/dts-arm32/imx7d-pinfunc.h"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/clock/imx7d-clock.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+/ {
+    compatible = "toradex,colibri-imx7";
+    fragment@0 {
+        target = <&pwm1>;
+        __overlay__ {
+                status = "disabled";
+        };
+    };
+    fragment@1 {
+        target = <&pwm2>;
+        __overlay__ {
+                status = "disabled";
+        };
+    };
+    fragment@2 {
+        target = <&pwm3>;
+        __overlay__ {
+                status = "disabled";
+        };
+    };
+	fragment@3 {
+	    target = <&ecspi3>;
+        __overlay__ {
+                status = "disabled";
+        };
+    };
+    fragment@4 {
+        target = <&iomuxc>;
+        __overlay__ {
+                pinctrl_custom: custom {
+                fsl,pins = <
+                    MX7D_PAD_GPIO1_IO10__GPIO1_IO10 	0x14
+                    MX7D_PAD_GPIO1_IO09__GPIO1_IO9  	0x14
+                    MX7D_PAD_GPIO1_IO08__GPIO1_IO8  	0x14
+					MX7D_PAD_ECSPI1_MISO__GPIO4_IO18    0x14 /* SODIMM 79 */
+					MX7D_PAD_ECSPI2_MISO__GPIO4_IO22    0x14 /* SODIMM 85 */
+					MX7D_PAD_ECSPI1_SCLK__GPIO4_IO16    0x14 /* SODIMM 101 */
+					MX7D_PAD_ECSPI1_MOSI__GPIO4_IO17    0x14 /* SODIMM 103 */
+					MX7D_PAD_ECSPI1_SS0__GPIO4_IO19     0x14 /* SODIMM 97 */
+					MX7D_PAD_SD2_RESET_B__GPIO5_IO11    0x14 /* SODIMM 98 */
+				>;
+            };
+        };
+    };
+    fragment@5 {
+        target = <&iomuxc>;
+        __overlay__ {
+                pinctrl-0 = <&pinctrl_custom>;
+        };
+    };
+	fragment@6 {
+        target = <&iomuxc>;
+		__overlay__ {
+			pinctrl_uart4: uart4-grp {
+				fsl,pins = <
+					MX7D_PAD_I2C2_SCL__UART4_DTE_TX        0x79 /* SODIMM 88 */
+					MX7D_PAD_I2C2_SDA__UART4_DTE_RX        0x79 /* SODIMM 86 */
+				>;
+			};
+		};
+	};
+    fragment@7 {
+        target = <&uart4>;
+        __overlay__ {
+				status = "okay";
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_uart4>;
+                assigned-clocks = <&clks IMX7D_UART4_ROOT_SRC>;
+                assigned-clock-parents = <&clks IMX7D_OSC_24M_CLK>;
+                fsl,dte-mode;
+        }; 
+    };
+	fragment@8 {
+        target = <&iomuxc>;
+		__overlay__ {
+			pinctrl_uart5: uart5-grp {
+				fsl,pins = <
+					MX7D_PAD_I2C4_SCL__UART5_DTE_TX        0x79 /* SODIMM 75 */
+					MX7D_PAD_I2C4_SDA__UART5_DTE_RX        0x79 /* SODIMM 96 */
+				>;
+			};
+		};
+	};
+	fragment@9 {
+        target = <&uart5>;
+        __overlay__ {
+				status = "okay";
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_uart5>;
+                assigned-clocks = <&clks IMX7D_UART5_ROOT_SRC>;
+                assigned-clock-parents = <&clks IMX7D_OSC_24M_CLK>;
+                fsl,dte-mode;
+        }; 
+    };
+	fragment@10 {
+        target = <&iomuxc>;
+		__overlay__ {
+			pinctrl_uart6: uart6-grp {
+				fsl,pins = <
+					MX7D_PAD_SD1_CD_B__UART6_DTE_TX    0x79 /* SODIMM 69 */
+					MX7D_PAD_SD1_WP__UART6_DTE_RX    0x79 /* SODIMM 71 */
+				>;
+			};
+		};
+	};
+	fragment@11 {
+        target = <&uart6>;
+        __overlay__ {
+				status = "okay";
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_uart6>;
+                assigned-clocks = <&clks IMX7D_UART6_ROOT_SRC>;
+                assigned-clock-parents = <&clks IMX7D_OSC_24M_CLK>;
+                fsl,dte-mode;
+        }; 
+    };
+ };
